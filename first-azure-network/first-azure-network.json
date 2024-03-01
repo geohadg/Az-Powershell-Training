@@ -1,0 +1,83 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "vnet-name": {
+            "type": "string",
+            "defaultValue": "arm-vnet-test01"
+        },
+        "subnet-name": {
+            "type": "string",
+            "defaultValue": "arm-subnet-test01"
+        },
+        "nicname": {
+            "type": "string",
+            "defaultValue": "arm-nic-test01"
+        }
+    },
+    "variables": {
+        "vnetaddressPrefix": "10.0.0.0/16",
+        "subnetaddressprefix": "10.0.0.0/24"
+        
+
+    },
+    "resources": [
+        {
+            "type": "Microsoft.Network/networkInterfaces",
+            "apiVersion": "2023-04-01",
+            "location": "East US",
+            "name": "[parameters('nicname')]",
+            "properties": {
+                "ipConfigurations": [
+                    {
+                        "name": "ipconfig01",
+                        "properties": {
+                            "subnet": {
+                                "Id": "[resourceId('Microsoft.Network/virtualnetworks/subnets', parameters('vnet-name'), parameters('subnet-name'))]"
+                            },
+                        
+                        "privateIPAllocationMethod": "dynamic"
+                        }
+                    }
+                ]
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/virtualnetworks/subnets', parameters('vnet-name'), parameters('subnet-name'))]"
+            ]
+        },
+        {
+            "type": "Microsoft.Network/virtualnetworks",
+            "apiVersion": "2023-04-01",
+            "location": "East US",
+            "name": "[parameters('vnet-name')]",
+            "properties": {
+                "addressSpace":{
+                    "addressPrefixes": ["[variables('vnetaddressPrefix')]"]
+                } 
+            }
+        },
+        {
+            "type": "Microsoft.Network/virtualnetworks/subnets",
+            "apiVersion": "2023-04-01",
+            "location":  "East US",
+            "name": "[format('{0}/{1}', parameters('vnet-name'), parameters('subnet-name'))]",
+            "properties": {
+                "addressPrefix": "[variables('subnetaddressprefix')]"
+
+            },
+            "dependsOn": ["[resourceId('Microsoft.Network/virtualnetworks', parameters('vnet-name'))]"]
+        }
+        
+    ],
+    "outputs": {
+        "output1": {
+            "type": "string",
+            "value": "[resourceId('Microsoft.Network/virtualnetworks', parameters('vnet-name'))]"
+        },
+        "output2": {
+            "type": "string",
+            "value": "[resourceId('Microsoft.Network/virtualnetworks/subnets', parameters('vnet-name'), parameters('subnet-name'))]"
+        }
+    },
+    "functions": []
+}
