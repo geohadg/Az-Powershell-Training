@@ -1,2 +1,0 @@
-get-date | Out-File 'C:\Users\ggftt\OneDrive\Desktop\Azure Training\first-gitcl-demo\Az-Powershell-Training\logtest.txt'
-Get-PSDrive -PSProvider FileSystem | Out-File 'C:\Users\ggftt\OneDrive\Desktop\Azure Training\first-gitcl-demo\Az-Powershell-Training\logtest.txt'
