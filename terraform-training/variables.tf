@@ -15,7 +15,7 @@ variable rg_name {
 
 variable storageaccount-name {
     type = string
-    default = "tfstorage"
+    default = "storageaccounttftest"
 }
 
 variable storageaccount-kind {
