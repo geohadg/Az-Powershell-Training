@@ -32,8 +32,3 @@ variable replicationtype {
     type = string
     default = "LRS"
 }
-
-variable policy-name {
-    type = string
-    default = "tfpolicy"
-}

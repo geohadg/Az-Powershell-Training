@@ -19,21 +19,33 @@ resource "azurerm_resource_group" "rg" {
   location = "eastus"
 }
 
+resource "azurerm_virtual_network" "vnet" {
+    name                = var.vnet_name
+    location            = "eastus"
+    address_space       = [var.vnet_address_space]
+    resource_group_name = azurerm_resource_group.rg.name
+}
+
 resource "azurerm_storage_account" "stac" {
-  name = var.storageaccount-name
-  location = "eastus"
-  account_kind = var.storageaccount-kind
-  account_tier = var.account-tier
+  name                     = var.storageaccount-name
+  location                 = "eastus"
+  account_kind             = var.storageaccount-kind
+  account_tier             = var.account-tier
   account_replication_type = var.replicationtype
-  resource_group_name = azurerm_resource_group.rg.name
+  resource_group_name      = azurerm_resource_group.rg.name
 }
 
 output "storage-id" {
     description = "storage account id"
-    value = azurerm_storage_account.stac.id
+    value       = azurerm_storage_account.stac.id
 }
 
 output "rg-id" {
     description = "Resource group id"
-    value = azurerm_resource_group.rg.id
+    value       = azurerm_resource_group.rg.id
+}
+
+output "vnet-id" {
+    description = "Virtual Network id"
+    value       = azurerm_virtual_network.vnet.id  
 }
