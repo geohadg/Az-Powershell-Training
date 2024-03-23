@@ -19,9 +19,11 @@ resource "azurerm_resource_group" "rg" {
   location = "eastus"
 }
 
-resource "azurerm_virtual_network" "vnet"{
-  name = var.vnet_name
-  address_space = [var.vnet_address_space]
-  resource_group_name = var.rg_name
+resource "azurerm_storage_account" "stac" {
+  name = var.storageaccount-name
   location = "eastus"
+  account_kind = var.storageaccount-kind
+  account_tier = var.access-tier
+  account_replication_type = var.replicationtype
+  resource_group_name = var.rg_name
 }
