@@ -23,7 +23,7 @@ variable storageaccount-kind {
     default = "StorageV2"
 }
 
-variable access-tier {
+variable account-tier {
     type = string
     default = "Standard"
 }
